@@ -27,6 +27,28 @@ const ShopContextProvider = (props)=>{
             return;
         }
 
+        if(login){
+            try{
+            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/cart/add', {itemId, size}, {headers : {login}});
+            
+            if(response.data.success){
+                toast.success(response.data.message);
+            }
+            else{
+                 toast.success(response.data.message)
+            }
+           
+
+            }catch(error){
+                console.log(error)
+                toast.error(error.message);
+            }
+           
+        }else{
+            toast.error("Not Authorized Login again")
+            return;
+        }
+
         if(cart[itemId]){
             if(cart[itemId][size]){
                 cart[itemId][size] += 1;
@@ -40,21 +62,6 @@ const ShopContextProvider = (props)=>{
 
         setcartitems(cart);
 
-        if(login){
-            try{
-            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/cart/add', {itemId, size}, {headers : {login}});
-            
-            if(response.data.success)
-            toast.success(response.data.message);
-            else
-            toast.success(response.data.message)
-
-            }catch(error){
-                console.log(error)
-                toast.error(error.message);
-            }
-           
-        }
     }
 
     //updated the count when added to the cart

@@ -66,6 +66,11 @@ const PlaceOrders = () => {
   const onsubmithandler = async(event)=>{
      event.preventDefault();
 
+     if(!address.firstname || !address.lastname || !address.city || !address.email || !address.street || !address.state || !address.zipcode || !address.country || !address.phone){
+       toast.error("Fill details first!!")
+       return;
+     }
+
      let ordersitem = [];
 
      for(const items in cartitems){
