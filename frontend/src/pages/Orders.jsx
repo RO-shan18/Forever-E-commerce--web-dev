@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import  { useContext } from 'react'
 import Title from '../components/Title'
 import { ShopContext } from '../Context/ShopContext'
 import { useState } from 'react';
@@ -6,14 +6,14 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 const Orders = () => {
-  const {backendurl, currency, login } = useContext(ShopContext);
+  const { currency, login } = useContext(ShopContext);
   
   const [ordersdata, setordersdata] = useState();
 
   const userorderdetail = async()=>{
      try{
 
-        const response = await axios.post(backendurl + '/api/order/userorder', {}, {headers : {login}});
+        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/userorder', {}, {headers : {login}});
         const orderitems = [];
         if(response.data.success){
            const items = response.data.message

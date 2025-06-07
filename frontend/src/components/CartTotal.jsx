@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Title from './Title'
 import { ShopContext } from '../Context/ShopContext'
 
 const CartTotal = () => {
-    const {delivery_fee, totalcartamount, currency, navigate} = useContext(ShopContext)
+    const {delivery_fee, totalcartamount, currency} = useContext(ShopContext)
 
   return (
     <div className='flex lg:px-0 px-7 w-full  flex-col justify-self-end my-20'>

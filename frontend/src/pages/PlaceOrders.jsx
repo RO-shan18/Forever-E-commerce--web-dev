@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import  { useContext, useState } from 'react'
 import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/frontend_assets/assets'
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 const PlaceOrders = () => {
 
-  const {navigate, cartitems, setcartitems, delivery_fee,totalcartamount, product, backendurl, login, razorpaykeyid} = useContext(ShopContext);
+  const {navigate, cartitems, setcartitems, delivery_fee,totalcartamount, product, login} = useContext(ShopContext);
     const [method, setmethod] = useState('Stripe');
 
   const [address, setaddress] = useState({
@@ -25,7 +25,7 @@ const PlaceOrders = () => {
 
   const initpay = async(order)=>{
     const options = {
-        key : razorpaykeyid,
+        key : import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount : order.amount,
         currency : order.currency,
         name : 'Order payment',
@@ -34,7 +34,7 @@ const PlaceOrders = () => {
         receipt : order.receipt,
         handler : async (response)=>{
           try{
-            const  verifyresponse = await axios.post(backendurl + '/api/order/verifyRazorpayment', response , {headers:{login}});
+            const  verifyresponse = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/verifyRazorpayment', response , {headers:{login}});
 
             console.log(verifyresponse)
 
@@ -89,7 +89,7 @@ const PlaceOrders = () => {
     switch(method){
       
       case "COD":
-        const response = await axios.post(backendurl + '/api/order/place', ordersdata, {headers:{login}});
+        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/place', ordersdata, {headers:{login}});
         if(response.data.success){
           toast.success(response.data.message);
           setcartitems({});
@@ -100,7 +100,7 @@ const PlaceOrders = () => {
         break;
       
       case "Stripe":
-         const responseStripe = await axios.post(backendurl + '/api/order/stripepay', ordersdata, {headers:{login}});
+         const responseStripe = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/stripepay', ordersdata, {headers:{login}});
 
          if(responseStripe.data.success){
             const{session_url} = responseStripe.data;
@@ -112,7 +112,7 @@ const PlaceOrders = () => {
          break;
 
       case "Razorpay":
-          const responserazorpay = await axios.post(backendurl + '/api/order/razorpay', ordersdata, {headers: {login}});
+          const responserazorpay = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/razorpay', ordersdata, {headers: {login}});
 
           if(responserazorpay.data.success){
               initpay(responserazorpay.data.order)

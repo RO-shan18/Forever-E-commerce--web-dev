@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { ShopContext } from '../Context/ShopContext'
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const Verify = () => {
 
-    const { backendurl, setcartitems, login, navigate } = useContext(ShopContext);
+    const { setcartitems, login, navigate } = useContext(ShopContext);
 
     const [searchparams, setsearchparams] = useSearchParams();
 
@@ -20,7 +20,7 @@ const Verify = () => {
                 return null;
             }
 
-            const response = await axios.post(backendurl + '/api/order/verifystripepayment', {success, orderId}, {headers : {login}});
+            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/verifystripepayment', {success, orderId}, {headers : {login}});
 
             console.log(response)
 

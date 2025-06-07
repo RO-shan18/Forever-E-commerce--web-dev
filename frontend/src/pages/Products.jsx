@@ -12,18 +12,21 @@ const Products = () => {
   const [size, setsize] = useState("");
 
   const getproduct = async () => {
-    product.map((item) => {
-      if (item._id === productId) {
-        setproducts(item);
-        setimage(item.image[0]);
-        return null;
+    if(product.length > 0){
+      let foundproduct = product.find((item) => item._id === productId);
+
+      if(foundproduct){
+        setproducts(foundproduct);
+        setimage(foundproduct.image[0]);
       }
-    });
+    }
   };
 
   useEffect(() => {
     getproduct();
   }, [productId, products]);
+
+  console.log(products)
 
   return(
     <div className=" my-10 md:my-20">
@@ -31,7 +34,7 @@ const Products = () => {
       <div className="flex flex-col md:grid grid-cols-[0.5fr_2fr_2fr] lg:px-0 px-5 lg:grid-cols-[1fr_3fr_2fr] gap-5 md:gap-1 lg:gap-5 w-full  lg:w-3/4 mx-auto">
           <div className="flex md:flex-col md:px-0 px-5 flex-row md:justify-start justify-center gap-2">
              {
-               products.image && 
+               products && 
                (
                  products.image.map((item, index)=> {
                    return <img onClick={()=> setimage(item)} className="h-1/6 w-1/4 md:w-full lg:h-2/4" key={index} src={item} alt="smallimage" />

@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { products } from "../assets/frontend_assets/assets";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -13,8 +12,6 @@ const ShopContextProvider = (props)=>{
     const currency = '$';
     const delivery_fee = 10;
     const [search, setsearch] = useState("");
-    const backendurl = 'http://localhost:4000';
-    const razorpaykeyid = 'rzp_test_v7inwIgC6G0gur';
     const [product, setproduct] = useState([]);
     const [showsearch, setshowsearch] = useState(false);
     const [cartitems, setcartitems] = useState({});
@@ -45,7 +42,7 @@ const ShopContextProvider = (props)=>{
 
         if(login){
             try{
-            const response = await axios.post(backendurl + '/api/cart/add', {itemId, size}, {headers : {login}});
+            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/cart/add', {itemId, size}, {headers : {login}});
             
             if(response.data.success)
             toast.success(response.data.message);
@@ -84,7 +81,7 @@ const ShopContextProvider = (props)=>{
 
             try{    
                 
-                const response = await axios.post(backendurl + '/api/cart/update', {itemId, size, quantity}, {headers:{login}})
+                const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/cart/update', {itemId, size, quantity}, {headers:{login}})
 
                 if(response.data.success){
                     toast.success(response.data.message);
@@ -116,7 +113,7 @@ const ShopContextProvider = (props)=>{
     //get products from the backend
     const getproducts = async ()=>{
         try{
-            const response = await axios.get( backendurl + '/api/product/list');
+            const response = await axios.get( import.meta.env.VITE_BACKEND_URL + '/api/product/list');
             
             if(response.data.success){
                 setproduct(response.data.message)
@@ -135,7 +132,7 @@ const ShopContextProvider = (props)=>{
 
         try{
             
-            const response = await axios.post(backendurl + '/api/cart/get', {}, {headers:{login}});
+            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/cart/get', {}, {headers:{login}});
             if(response.data.success){
                 setcartitems(response.data.message);
             }
@@ -164,7 +161,7 @@ const ShopContextProvider = (props)=>{
         cartitems, getcartitems, setcartitems,
         countcartitems,updatequantity,
         totalcartamount,navigate,
-        login, setlogin, backendurl,razorpaykeyid,
+        login, setlogin,
     };
 
     return (
