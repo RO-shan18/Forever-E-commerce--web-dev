@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
@@ -24,7 +24,7 @@ const Products = () => {
 
   useEffect(() => {
     getproduct();
-  }, [productId, products]);
+  }, [productId, product]);
 
   console.log(products)
 
