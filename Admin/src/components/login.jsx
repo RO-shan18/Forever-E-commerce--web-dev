@@ -11,7 +11,7 @@ const Login = ({setlogin}) => {
         try{
             event.preventDefault();
 
-            const response = await axios.post(BackendUrl + '/api/user/admin',{email, password});
+            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/user/admin',{email, password});
 
             if(response.data.success){
                 setlogin(response.data.message);

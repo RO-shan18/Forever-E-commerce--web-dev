@@ -11,7 +11,7 @@ const Orders = ({ login }) => {
   const getallorders = async () => {
     try {
       const response = await axios.post(
-        BackendUrl + "/api/order/allorder",
+        import.meta.env.VITE_BACKEND_URL + "/api/order/allorder",
         {},
         { headers: { login } }
       );
@@ -30,7 +30,7 @@ const Orders = ({ login }) => {
   const updatestatus = async ( id, event )=>{
     try{
 
-      const response = await axios.post(BackendUrl + '/api/order/update', { id, status:event.target.value }, {headers:{login}});
+      const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/update', { id, status:event.target.value }, {headers:{login}});
 
       console.log(response)
       if(response.data.success){

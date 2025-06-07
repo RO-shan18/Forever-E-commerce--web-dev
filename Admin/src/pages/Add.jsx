@@ -39,7 +39,7 @@ const Add = ({login}) => {
       image3 && formdata.append('image3', image3)
       image4 && formdata.append('image4', image4)
 
-      let response = await axios.post(BackendUrl + '/api/product/add',formdata,{headers:{login}})
+      let response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/product/add',formdata,{headers:{login}})
 
       if(response.data.success){
          toast.success(response.data.message);

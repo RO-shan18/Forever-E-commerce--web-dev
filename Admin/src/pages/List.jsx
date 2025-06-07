@@ -10,7 +10,7 @@ const List = ({login}) => {
   const listproducts = async ()=>{
      try{
        
-       const response = await axios.get(BackendUrl + '/api/product/list');
+       const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/api/product/list');
 
        if(response.data.success){
           setlists(response.data.message);
@@ -27,7 +27,7 @@ const List = ({login}) => {
   const removeproduct = async(id)=>{
      try{
         
-        const response = await axios.post(BackendUrl + '/api/product/remove' , {id} , {headers: {login}});
+        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/product/remove' , {id} , {headers: {login}});
 
         if(response.data.success){
            toast.success(response.data.message)
