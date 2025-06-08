@@ -165,16 +165,16 @@ const PlaceOrders = () => {
         <div className='flex flex-col sm:px-0 px-4'>
         <Title  title1="PAYMENT" title2="METHODS"/>
 
-        <div className='flex gap-4 my-5'>
-          <div onClick={()=> setmethod('Stripe')} className='flex gap-4 my-5 justify-end  border-2 items-center px-2 py-1 cursor-pointer'>
+        <div className='flex sm:flex-row flex-col gap-4 my-5'>
+          <div onClick={()=> setmethod('Stripe')} className='flex gap-4 my-2 sm:my-5 justify-center sm:justify-end  border-2 items-center px-2 py-1 cursor-pointer'>
             <p className={`h-3 w-3 rounded-full ${method === 'Stripe' ? "bg-green-500" : " "}`}></p>
             <img className='w-12 h-6 ' src={assets.stripe_logo}/>
           </div>
-          <div onClick={()=> setmethod('Razorpay')} className='flex gap-4 my-5 justify-end  border-2 items-center px-2 py-1 cursor-pointer'>
+          <div onClick={()=> setmethod('Razorpay')} className='flex gap-4 my-2 sm:my-5 justify-center sm:justify-end  border-2 items-center px-2 py-1 cursor-pointer'>
             <p className={`h-3 w-3 rounded-full ${method === 'Razorpay' ? "bg-green-500" : " "}`}></p>
             <img className='w-12 h-6 ' src={assets.razorpay_logo}/>
           </div>
-          <div onClick={()=> setmethod('COD')} className='flex gap-4 my-5 justify-end border-2 items-center px-2 py-1 cursor-pointer'>
+          <div onClick={()=> setmethod('COD')} className='flex gap-4 my-2 sm:my-5 justify-center sm:justify-end  border-2 items-center px-2 py-1 cursor-pointer'>
             <p className={`h-3 w-3 rounded-full ${method === 'COD' ? "bg-green-500" : " "}`}></p>
             <p className='text-sm'>CASH ON DELIVERY</p>
           </div>
