@@ -16,7 +16,7 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 
-//user/admin api endpoints
+//All user, orders, cart, admin api endpoints
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
