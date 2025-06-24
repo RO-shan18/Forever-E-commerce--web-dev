@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Productitems = ({ id, image, name, price }) => {
-  const { currency } = useContext(ShopContext);
+  //get the currency symbol from redux store
+  const currency = useSelector((store)=> store.Utility.currency);
+
   return (
    
       <div className="py-4 mx-3 flex flex-col items-center">

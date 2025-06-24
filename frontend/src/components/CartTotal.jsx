@@ -1,9 +1,17 @@
 import { useContext } from 'react'
 import Title from './Title'
 import { ShopContext } from '../Context/ShopContext'
+import { useSelector } from 'react-redux';
 
 const CartTotal = () => {
-    const {delivery_fee, totalcartamount, currency} = useContext(ShopContext)
+   
+    //get the currency symbol from redux store
+    const currency = useSelector((store)=> store.Utility.currency);
+
+    //get the currency symbol from redux store
+    const delivery_fee = useSelector((store)=> store.Utility.delivery_fee);
+
+    const { totalcartamount } = useContext(ShopContext)
 
   return (
     <div className='flex lg:px-0 px-7 w-full  flex-col justify-self-end my-20'>

@@ -3,11 +3,18 @@ import { assets } from "../assets/frontend_assets/assets";
 import Title from "../components/Title";
 import { ShopContext } from "../Context/ShopContext";
 import Productitems from "../components/productitems";
+import { useSelector } from "react-redux";
 
 const Collection = () => {
   const [visiblefilter, setvisiblefilter] = useState(false);
 
-  const { product ,search , showsearch, } = useContext(ShopContext);
+  const search = useSelector((store)=> store?.Search?.search)
+
+  //get the search value from redux store
+  const showsearch = useSelector((store)=> store?.showSearch?.showsearch)
+
+   //get the products from redux store
+  const productitems = useSelector((store)=> store?.products?.getproducts)
 
   const [collection, setcollection] = useState();
   const [category, setcategory] = useState([]);
@@ -33,16 +40,19 @@ const Collection = () => {
 
   //filteringproducts
   const filterproducts = ()=>{
-    let productscopy = product.slice();
+    let productscopy = productitems.length > 0 && productitems[0].slice();
 
+    //searching filter
     if(!showsearch && search){
       productscopy = productscopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
     }
 
+    //category filter
     if(category.length > 0){
       productscopy = productscopy.filter(item => category.includes(item.category));
     }
 
+    //type filter
     if(type.length > 0){
       productscopy = productscopy.filter(item => type.includes(item.subCategory));
     }
@@ -73,7 +83,7 @@ const Collection = () => {
 
   useEffect(()=>{
     filterproducts();
-  },[category, type, showsearch, search, product])
+  },[category, type, showsearch, search, productitems])
 
   return (
     <div className="flex md:flex-row flex-col w-full lg:w-3/4  mx-auto">

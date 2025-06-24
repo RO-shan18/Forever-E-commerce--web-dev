@@ -1,16 +1,17 @@
-import  { useContext, useEffect, useState } from "react";
-import { ShopContext } from "../Context/ShopContext";
+import { useEffect, useState } from "react";
 import Title from "./Title";
 import Productitems from "./productitems";
+import { useSelector } from "react-redux";
 
 const RelatedProducts = ({ category, subcategory }) => {
-  const { product } = useContext(ShopContext);
+  //get the products from redux store
+  const productitems = useSelector((store)=> store?.products?.getproducts);
   const [relatedproduct, setrelatedproduct] = useState();
 
   useEffect(() => {
-   let productcopy = product.slice();
+   let productcopy = productitems.length > 0 && productitems[0].slice();
 
-    if (product) {
+    if (productitems.length > 0) {
       productcopy = productcopy.filter((item) => category === item.category);
       productcopy = productcopy.filter(
         (item) => subcategory === item.subCategory
@@ -18,7 +19,7 @@ const RelatedProducts = ({ category, subcategory }) => {
 
       setrelatedproduct(productcopy.slice(0, 5));
     }
-  }, [product, category, subcategory]);
+  }, [productitems, category, subcategory]);
 
   return (
     <div>

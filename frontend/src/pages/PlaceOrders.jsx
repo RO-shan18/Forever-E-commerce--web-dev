@@ -5,10 +5,28 @@ import { assets } from '../assets/frontend_assets/assets'
 import { ShopContext } from '../Context/ShopContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeItem } from '../redux/cartItemSlice'
+import { useNavigate } from 'react-router-dom'
 
 const PlaceOrders = () => {
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const {navigate, cartitems, setcartitems, delivery_fee,totalcartamount, product, login} = useContext(ShopContext);
+  //get the login token from redux store
+  const login = useSelector((store)=> store?.Token?.token);
+
+  //get the products from redux store
+  const productitems = useSelector((store)=> store?.products?.getproducts)
+
+  //get the cart items from redux store
+  const cartItems = useSelector((store)=>  store?.cartItem?.cartitem);
+
+  //get the currency symbol from redux store
+  const delivery_fee = useSelector((store)=> store.Utility.delivery_fee);
+
+  const {totalcartamount} = useContext(ShopContext);
     const [method, setmethod] = useState('Stripe');
 
   const [address, setaddress] = useState({
@@ -40,7 +58,7 @@ const PlaceOrders = () => {
 
             if(verifyresponse.data.success){
                navigate('/Orders')
-               setcartitems({});
+               dispatch(removeItem());
             }else{
               navigate('/Cart');
             }
@@ -73,12 +91,12 @@ const PlaceOrders = () => {
 
      let ordersitem = [];
 
-     for(const items in cartitems){
-      for(const item in cartitems[items]){
-        if(cartitems[items][item] > 0){
-          let iteminfo = structuredClone(product.find((product) => product._id === items));
+     for(const items in cartItems){
+      for(const item in cartItems[items]){
+        if(cartItems[items][item] > 0){
+          let iteminfo = structuredClone(productitems[0].find((product) => product._id === items));
           iteminfo.size = item;
-          iteminfo.quatity = cartitems[items][item];
+          iteminfo.quatity = cartItems[items][item];
           ordersitem.push(iteminfo)
         }
       }
@@ -97,7 +115,7 @@ const PlaceOrders = () => {
         const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/place', ordersdata, {headers:{login}});
         if(response.data.success){
           toast.success(response.data.message);
-          setcartitems({});
+          dispatch(removeItem());
         }else{
           console.log(error);
           toast.error(error.message);
@@ -111,7 +129,6 @@ const PlaceOrders = () => {
             const{session_url} = responseStripe.data;
             window.location.replace(session_url);
          }else{
-            console.log(responseStripe.data.message)
             toast.error(responseStripe.data.message);
          }
          break;

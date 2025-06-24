@@ -3,21 +3,34 @@ import Title from '../components/Title'
 import { ShopContext } from '../Context/ShopContext'
 import { assets } from '../assets/frontend_assets/assets';
 import CartTotal from '../components/CartTotal';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 
-  const {product, cartitems, currency, updatequantity, navigate} = useContext(ShopContext);
+  //get the cart items from redux store
+  const cartItems = useSelector((store)=>  store?.cartItem?.cartitem);
+
+  //get the products from redux store
+  const productitems = useSelector((store)=> store?.products?.getproducts);
+
+  //get the currency symbol from redux store
+  const currency = useSelector((store)=> store.Utility.currency);
+
+  const navigate = useNavigate();
+
+  const { updatequantity} = useContext(ShopContext);
   const [cartdata, setcartdata ] = useState();
 
   const cartinfo = async()=>{
      let tempdata = [];
 
-     for(const items in cartitems){
-      for(const item in cartitems[items]){
-         if(cartitems[items][item] > 0){
+     for(const items in cartItems){
+      for(const item in cartItems[items]){
+         if(cartItems[items][item] > 0){
             tempdata.push({
               id : items,
-              quantity : cartitems[items][item],
+              quantity : cartItems[items][item],
               size : item,
             })
          }
@@ -29,7 +42,7 @@ const Cart = () => {
 
   useEffect(()=>{
     cartinfo()
-  },[cartitems])
+  },[cartItems])
 
 
   return (
@@ -40,7 +53,9 @@ const Cart = () => {
           { cartdata && 
             cartdata.map((item, index)=>{
                
-               let productdata = product.find((product)=> product._id === item.id);
+               let productdata
+               if(productitems.length > 0)
+               productdata = productitems[0].find((product)=> product._id === item.id);
 
                return(
                 <div className='sm:grid flex my-3 sm:py-0 py-4 flex-col items-center justify-center grid-cols-[1fr_3fr_3fr_1fr] gap-5 border-2' key={index}>

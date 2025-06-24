@@ -4,9 +4,14 @@ import { ShopContext } from '../Context/ShopContext'
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const Orders = () => {
-  const { currency, login } = useContext(ShopContext);
+   //get the currency symbol from redux store
+   const currency = useSelector((store)=> store.Utility.currency);
+
+  //get the login token from redux store
+  const login = useSelector((store)=> store?.Token?.token);
   
   const [ordersdata, setordersdata] = useState();
 

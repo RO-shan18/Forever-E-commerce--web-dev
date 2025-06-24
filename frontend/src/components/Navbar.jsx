@@ -1,18 +1,27 @@
 import { useContext, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
+import { useDispatch, useSelector } from "react-redux";
+import { togglesearch } from "../redux/showsearchslice";
+import { removeItem } from "../redux/cartItemSlice";
+import { removetoken } from "../redux/loginslice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //get the login token from redux store
+  const login = useSelector((store)=> store?.Token?.token);
   const [visible, setvisible] = useState(false);
-  const {setshowsearch, countcartitems, navigate, setcartitems, setlogin, login} = useContext(ShopContext);
+  const { countcartitems } = useContext(ShopContext);
+
 
   const loggedout = ()=>{
     navigate('/login');
     localStorage.removeItem('token');
-    setlogin('');
-    setcartitems({});
-
+    dispatch(removetoken());
+    dispatch(removeItem());
   }
 
   return (
@@ -51,7 +60,7 @@ const Navbar = () => {
       </ul>
 
       <div className="flex items-center gap-5">
-        <img onClick={()=> setshowsearch(false)} src={assets.search_icon} className="w-4 sm:w-5" alt="search" />
+        <img onClick={()=> dispatch(togglesearch(false))} src={assets.search_icon} className="w-4 sm:w-5" alt="search" />
 
         <div className="group relative">
           <img onClick={()=> login ? null : navigate('/Login')} src={assets.profile_icon} className="w-4 sm:w-5" alt="profile" />

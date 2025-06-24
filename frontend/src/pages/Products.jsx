@@ -3,17 +3,24 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
 import RelatedProducts from "../components/RelatedProducts";
+import { useSelector } from "react-redux";
 
 const Products = () => {
+  //get the products from redux store
+  const productitems = useSelector((store)=> store?.products?.getproducts)
+
+  //get the currency symbol from redux store
+  const currency = useSelector((store)=> store.Utility.currency);
+
   const { productId } = useParams();
-  const { product, currency, getcartitems } = useContext(ShopContext);
+  const {getcartitems} = useContext(ShopContext);
   const [products, setproducts] = useState(false);
   const [image, setimage] = useState("");
   const [size, setsize] = useState("");
 
   const getproduct = async () => {
-    if(product.length > 0){
-      let foundproduct = product.find((item) => item._id === productId);
+    if(productitems.length > 0){
+      let foundproduct = productitems[0].find((item) => item._id === productId);
 
       if(foundproduct){
         setproducts(foundproduct);
@@ -24,9 +31,8 @@ const Products = () => {
 
   useEffect(() => {
     getproduct();
-  }, [productId, product]);
+  }, [productId, productitems]);
 
-  console.log(products)
 
   return(
     <div className=" my-10 md:my-20">
@@ -70,7 +76,7 @@ const Products = () => {
               </div>
               <button onClick={()=> getcartitems(productId, size)} className="text-sm px-3 py-2 lg:px-5 lg:py-3 bg-black text-white w-2/4 sm:w-1/3">ADD TO CART</button>
               <hr className="h-[2px] bg-gray-300  lg:block md:hidden block"></hr>
-              <div className="flex flex-col gap-0 lg:gap-1 lg:block md:hidden block">
+              <div className="flex flex-col gap-0 lg:gap-1 lg:block md:hidden ">
               <p className="text-sm text-gray-700">100% Original product.</p>
               <p className="text-sm text-gray-700">Cash on delivery is available on this product.</p>
               <p className="text-sm text-gray-700">Easy return and exchange policy within 7 days.</p>

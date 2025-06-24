@@ -84,7 +84,7 @@ const Orders = ({ login }) => {
              </div>
 
              <div className="grid grid-cols-[6fr_1fr] sm:block">
-                <p>${order.items[0].price}</p>
+                <p>${order?.items[0]?.price}</p>
              </div>
 
              <div className> 

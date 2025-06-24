@@ -2,9 +2,18 @@ import  { useContext, useEffect, useState } from "react";
 import {  ShopContext } from "../Context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { gettoken } from "../redux/loginslice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { login, setlogin, navigate } = useContext(ShopContext);
+  const dispatch = useDispatch();
+
+  //get the login token from redux store
+  const login = useSelector((store)=> store?.Token?.token);
+
+  const navigate = useNavigate();
+
   const [signup, setsignup] = useState("Login");
 
   const[name, setname] = useState('');
@@ -21,7 +30,7 @@ const Login = () => {
         
         if(response.data.success){
            localStorage.setItem('token', response.data.token);
-           setlogin(response.data.token);
+           dispatch(gettoken((response.data.token)));
         }else{
           toast.error(response.data.message)
         }
@@ -31,7 +40,7 @@ const Login = () => {
         const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/user/login' , {email, password});
         if(response.data.success){
           localStorage.setItem('token', response.data.token);
-          setlogin(response.data.token);
+          dispatch(gettoken((response.data.token)));
           toast.success('Login successfully')
         }else{
           toast.error(response.data.message)

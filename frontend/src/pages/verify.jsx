@@ -1,12 +1,18 @@
 import { useContext, useEffect } from 'react'
 import { ShopContext } from '../Context/ShopContext'
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeItem } from '../redux/cartItemSlice';
 
 const Verify = () => {
+    const navigate = useNavigate();
 
-    const { setcartitems, login, navigate } = useContext(ShopContext);
+    //get the login token from redux store
+    const login = useSelector((store)=> store?.Token?.token);
+
+    const dispatch = useDispatch();
 
     const [searchparams, setsearchparams] = useSearchParams();
 
@@ -25,7 +31,7 @@ const Verify = () => {
             console.log(response)
 
             if(response.data.success){
-                setcartitems({});
+                dispatch(removeItem());
                 navigate('/Orders')
             }else{
                 navigate('/Cart');
