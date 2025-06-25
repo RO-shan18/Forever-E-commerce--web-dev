@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ShopContext } from "../Context/ShopContext";
 import { useDispatch, useSelector } from "react-redux";
 import { togglesearch } from "../redux/showsearchslice";
 import { removeItem } from "../redux/cartItemSlice";
 import { removetoken } from "../redux/loginslice";
+import totalitem from "../helper/totalitem";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -14,8 +14,7 @@ const Navbar = () => {
   //get the login token from redux store
   const login = useSelector((store)=> store?.Token?.token);
   const [visible, setvisible] = useState(false);
-  const { countcartitems } = useContext(ShopContext);
-
+  const {countcartitems} =  totalitem();
 
   const loggedout = ()=>{
     navigate('/login');

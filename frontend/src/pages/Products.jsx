@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ShopContext } from "../Context/ShopContext";
 import { assets } from "../assets/frontend_assets/assets";
 import RelatedProducts from "../components/RelatedProducts";
 import { useSelector } from "react-redux";
+import usegetcartitems from "../hooks/usegetcartitems";
 
 const Products = () => {
   //get the products from redux store
@@ -12,8 +12,9 @@ const Products = () => {
   //get the currency symbol from redux store
   const currency = useSelector((store)=> store.Utility.currency);
 
+  const {getcartitems} = usegetcartitems()
+
   const { productId } = useParams();
-  const {getcartitems} = useContext(ShopContext);
   const [products, setproducts] = useState(false);
   const [image, setimage] = useState("");
   const [size, setsize] = useState("");

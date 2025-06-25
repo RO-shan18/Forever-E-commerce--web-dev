@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Title from '../components/Title'
-import { ShopContext } from '../Context/ShopContext'
 import { assets } from '../assets/frontend_assets/assets';
 import CartTotal from '../components/CartTotal';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useUpdatequantity from '../hooks/useUpdatequantity';
 
 const Cart = () => {
 
@@ -17,9 +17,11 @@ const Cart = () => {
   //get the currency symbol from redux store
   const currency = useSelector((store)=> store.Utility.currency);
 
+  //custom hook 
+  const {updatequantity} = useUpdatequantity();
+
   const navigate = useNavigate();
 
-  const { updatequantity} = useContext(ShopContext);
   const [cartdata, setcartdata ] = useState();
 
   const cartinfo = async()=>{

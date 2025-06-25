@@ -14,8 +14,11 @@ import Footer from './components/Footer'
 import Searchbar from './components/searchbar'
 import { ToastContainer, toast } from 'react-toastify';
 import Verify from './pages/verify'
+import usegetusecartdata from './hooks/usegetusecartdata'
 
 const App = () => {
+  usegetusecartdata();
+  
   return (
     
     <div >

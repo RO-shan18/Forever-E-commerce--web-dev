@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import Productitems from "./productitems";
 import Title from "./Title";
 import { useSelector } from "react-redux";
+import usegetproducts from "../hooks/usegetproducts"
 
 const BestSeller = () => {
+  //get all products
+  usegetproducts();
+
   //get the products from redux store
   const productitems = useSelector((store) => store?.products?.getproducts);
   const [bestproducts, setbestproducts] = useState();

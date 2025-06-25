@@ -1,13 +1,13 @@
-import  { useContext, useState } from 'react'
+import  { useState } from 'react'
 import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/frontend_assets/assets'
-import { ShopContext } from '../Context/ShopContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeItem } from '../redux/cartItemSlice'
 import { useNavigate } from 'react-router-dom'
+import totalamount from '../helper/totalamount'
 
 const PlaceOrders = () => {
   
@@ -26,8 +26,10 @@ const PlaceOrders = () => {
   //get the currency symbol from redux store
   const delivery_fee = useSelector((store)=> store.Utility.delivery_fee);
 
-  const {totalcartamount} = useContext(ShopContext);
-    const [method, setmethod] = useState('Stripe');
+  //helper function
+  const {totalcartamount} = totalamount();
+
+  const [method, setmethod] = useState('Stripe');
 
   const [address, setaddress] = useState({
     firstname: '',

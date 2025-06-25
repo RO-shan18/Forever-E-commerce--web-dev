@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { ShopContext } from "../Context/ShopContext";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 

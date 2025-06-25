@@ -1,13 +1,17 @@
-import  { useContext, useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import Title from "../components/Title";
-import { ShopContext } from "../Context/ShopContext";
 import Productitems from "../components/productitems";
 import { useSelector } from "react-redux";
+import usegetproducts from "../hooks/usegetproducts";
 
 const Collection = () => {
   const [visiblefilter, setvisiblefilter] = useState(false);
 
+  //get all products
+  usegetproducts();
+
+  //get search results from redux store
   const search = useSelector((store)=> store?.Search?.search)
 
   //get the search value from redux store

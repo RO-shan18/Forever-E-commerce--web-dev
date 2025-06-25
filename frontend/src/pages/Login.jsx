@@ -1,13 +1,9 @@
-import  { useContext, useEffect, useState } from "react";
-import {  ShopContext } from "../Context/ShopContext";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { gettoken } from "../redux/loginslice";
+import  { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
-  const dispatch = useDispatch();
 
   //get the login token from redux store
   const login = useSelector((store)=> store?.Token?.token);
@@ -20,44 +16,18 @@ const Login = () => {
   const[email, setemail] = useState('');
   const[password, setpassword] = useState('');
 
+  const {authenticateuser} = useLogin()
+
   const onsubmithandler = async(event)=>{
      event.preventDefault();
 
-    try{
-      if(signup === 'Sign Up'){
-        //Register User
-        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/user/register', {name, email, password});
-        
-        if(response.data.success){
-           localStorage.setItem('token', response.data.token);
-           dispatch(gettoken((response.data.token)));
-        }else{
-          toast.error(response.data.message)
-        }
-        
-      }else{
-        //Login User
-        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/user/login' , {email, password});
-        if(response.data.success){
-          localStorage.setItem('token', response.data.token);
-          dispatch(gettoken((response.data.token)));
-          toast.success('Login successfully')
-        }else{
-          toast.error(response.data.message)
-        }
-      }
-
-    }catch(error){
-        console.log(error)
-        toast.error(error.message);
-    }
+     await authenticateuser(name, email, password, signup);
   }
 
   useEffect(()=>{
     if(login)
     navigate('/');
   },[login])
-
 
 
   return (

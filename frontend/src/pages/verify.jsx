@@ -1,5 +1,4 @@
-import { useContext, useEffect } from 'react'
-import { ShopContext } from '../Context/ShopContext'
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';

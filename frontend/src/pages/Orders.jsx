@@ -1,51 +1,22 @@
-import  { useContext } from 'react'
 import Title from '../components/Title'
-import { ShopContext } from '../Context/ShopContext'
-import { useState } from 'react';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import useOrder from '../hooks/useOrder';
 
 const Orders = () => {
+   //get the login token from redux store
+   const login = useSelector((store)=> store?.Token?.token);
+
    //get the currency symbol from redux store
    const currency = useSelector((store)=> store.Utility.currency);
 
-  //get the login token from redux store
-  const login = useSelector((store)=> store?.Token?.token);
-  
-  const [ordersdata, setordersdata] = useState();
-
-  const userorderdetail = async()=>{
-     try{
-
-        const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/order/userorder', {}, {headers : {login}});
-        const orderitems = [];
-        if(response.data.success){
-           const items = response.data.message
-
-          items.map((item)=>{
-              item.items.map((order)=>{
-                 order['status'] = item.status;
-                 order['Payment'] = item.Payment;
-                 order['PaymentMethod'] = item.PaymentMethod;
-                 order['date'] = item.date;
-                 orderitems.push(order)
-              })
-           })
-           console.log(orderitems)
-            setordersdata(orderitems.reverse());
-        }
-
-     }catch(error){
-        console.log(error);
-        toast.error(error.message);
-     }
-  }
+   //custom hook 
+   const {ordersdata, userorderdetail} = useOrder();
 
   useEffect(()=>{
     userorderdetail();
   },[login]);
-
+  
   return (
     <div className='sm:my-20 my-10 w-full lg:px-0 px-5 lg:w-3/4 mx-auto flex flex-col gap-5 '>
       <Title title1="MY" title2="ORDERS"/>

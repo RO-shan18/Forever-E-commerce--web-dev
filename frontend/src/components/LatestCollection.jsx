@@ -1,8 +1,12 @@
+import usegetproducts from "../hooks/usegetproducts";
 import Title from "./Title";
 import Productitems from "./productitems";
 import { useSelector } from "react-redux";
 
 const LatestCollection = () => {
+  
+  //get all products
+  usegetproducts();
 
   //get the products from redux store
   const productitems = useSelector((store)=> store?.products?.getproducts)
